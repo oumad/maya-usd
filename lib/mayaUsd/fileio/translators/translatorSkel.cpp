@@ -1012,23 +1012,6 @@ bool _CreateRestMesh(const MObject& inputMesh, const MObject& parent, MObject* r
     return UsdMayaUtil::setPlugValue(*restMesh, _MayaTokens->intermediateObject, true);
 }
 
-/// Clear any incoming connections on \p plug.
-bool _ClearIncomingConnections(MPlug& plug)
-{
-    MPlugArray connections;
-    if (plug.connectedTo(connections, /*asDst*/ true, /*asSrc*/ false)) {
-        MStatus      status;
-        MDGModifier& dgMod = MDGModifierUndoItem::create("Clear deformer connections");
-        for (unsigned int i = 0; i < connections.length(); ++i) {
-            status = dgMod.disconnect(plug, connections[i]);
-            CHECK_MSTATUS_AND_RETURN(status, false);
-        }
-        status = dgMod.doIt();
-        CHECK_MSTATUS_AND_RETURN(status, false);
-    }
-    return true;
-}
-
 /// Configure the transform node of a skinned object.
 bool _ConfigureSkinnedObjectTransform(
     const UsdSkelSkinningQuery& skinningQuery,
