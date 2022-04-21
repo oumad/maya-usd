@@ -160,11 +160,6 @@ class testUsdImportSkeleton(unittest.TestCase):
         # double transform issues.
         self.assertEqual(cmds.getAttr("%s.inheritsTransform"%name), False)
 
-        # Mesh's transform should match the geomBindTransform.
-        self.assertTrue(_ArraysAreClose(
-            cmds.getAttr("%s.worldMatrix"%name),
-            _GfMatrixToList(usdSkinningQuery.GetGeomBindTransform())))
-
 
     def _ValidateSkinClusterRig(self, joints, skinClusterName, groupPartsName,
                                 groupIdName, bindPoseName, meshName,
